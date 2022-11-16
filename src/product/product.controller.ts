@@ -18,9 +18,9 @@ export class ProductController {
     return this.productService.findAll(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.productService.findOne(id);
+  @Get(':query')
+  findOne(@Param('query') query: string) {
+    return this.productService.findOne(query);
   }
 
   @Patch(':id')
@@ -33,3 +33,4 @@ export class ProductController {
     return this.productService.remove(id);
   }
 }
+

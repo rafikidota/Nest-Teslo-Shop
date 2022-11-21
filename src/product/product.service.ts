@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -110,6 +110,18 @@ export class ProductService {
     const product = await this.findOne(id);
     await this.productRepository.remove(product);
     return product;
+  }
+
+  private deleteAll() {
+    const query = this.productRepository.createQueryBuilder('product');
+    try {
+      return query
+        .delete()
+        .where({})
+        .execute();
+    } catch (error) {
+      this.handleExceptions(error);
+    }
   }
 
   private handleExceptions(error: any) {

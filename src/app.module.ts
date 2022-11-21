@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { CommonModule } from './common/common.module';
       synchronize: true
     }),
     ProductModule,
-    CommonModule
+    CommonModule,
+    SeedModule
   ],
   controllers: [AppController],
   providers: [AppService],

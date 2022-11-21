@@ -8,5 +8,6 @@
 3. Clone ```.env.template``` and rename it ```.env```
 4. Set up ```.env```
 5. Start db
-6. ```yarn start:dev```
+6. Execute seed ```http://localhost:3000/api/seed```
+7. Start app ```yarn start:dev```
 

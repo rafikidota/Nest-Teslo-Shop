@@ -112,7 +112,7 @@ export class ProductService {
     return product;
   }
 
-  private deleteAll() {
+  async deleteAll() {
     const query = this.productRepository.createQueryBuilder('product');
     try {
       return query

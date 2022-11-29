@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -16,7 +16,9 @@ export class User {
     @Column('text')
     fullName: string;
 
-    @Column('bool')
+    @Column('bool', {
+        default: true
+    })
     isActive: boolean;
 
     @Column('text', {

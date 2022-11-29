@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, Logger }
 
 @Injectable()
 export class CommonService {
-    handleExceptions(error: any, service: string) {
+    handleExceptions(error: any, service: string): never {
         const logger = new Logger(service);
         if (error.code === '23505') {
             throw new BadRequestException(error.detail);

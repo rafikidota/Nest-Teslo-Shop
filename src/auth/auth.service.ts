@@ -1,11 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CommonService } from '../common/common.service';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateUserDto) {
-    return 'This action adds a new auth';
+
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    private readonly commonService: CommonService
+    
+  ) { }
+
+  async create(createAuthDto: CreateUserDto) {
+
+    try {
+      const user = this.userRepository.create(createAuthDto);
+      await this.userRepository.save(user);
+      return user;
+    } catch (error) {
+      this.commonService.handleExceptions(error,'AuthService');
+    }
   }
 
   findAll() {

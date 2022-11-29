@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from '../common/common.module';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductImage } from './entities/product-image.entity';
 
@@ -9,7 +10,8 @@ import { ProductImage } from './entities/product-image.entity';
   controllers: [ProductController],
   providers: [ProductService],
   imports: [
-    TypeOrmModule.forFeature([Product, ProductImage])
+    TypeOrmModule.forFeature([Product, ProductImage]),
+    CommonModule
   ],
   exports: [
     ProductService,

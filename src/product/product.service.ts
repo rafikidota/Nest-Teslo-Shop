@@ -3,21 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product,ProductImage } from './entities/index.product';
+import { Product, ProductImage } from './entities/index.product';
 import { PaginationDto } from '../common/dto/pagination.dto';
 import { validate as isUUID } from 'uuid';
+import { CommonService } from '../common/common.service';
 
 @Injectable()
 export class ProductService {
-
-  private readonly logger = new Logger('ProductService');
 
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     @InjectRepository(ProductImage)
     private readonly productImageRepository: Repository<ProductImage>,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
+    private readonly commonService: CommonService
   ) { }
 
   async create(createProductDto: CreateProductDto) {
@@ -30,7 +30,7 @@ export class ProductService {
       await this.productRepository.save(product);
       return { ...product, images };
     } catch (error) {
-      this.handleExceptions(error);
+      this.commonService.handleExceptions(error, 'ProductService');
     }
   }
 
@@ -100,7 +100,7 @@ export class ProductService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       await queryRunner.release();
-      this.handleExceptions(error);
+      this.commonService.handleExceptions(error, 'ProductService');
     }
 
   }
@@ -119,15 +119,8 @@ export class ProductService {
         .where({})
         .execute();
     } catch (error) {
-      this.handleExceptions(error);
+      this.commonService.handleExceptions(error, 'ProductService');
     }
   }
 
-  private handleExceptions(error: any) {
-    if (error.code === '23505') {
-      throw new BadRequestException(error.detail);
-    }
-    this.logger.error(error);
-    throw new InternalServerErrorException(`Unexpected error, check server logs`)
-  }
 }

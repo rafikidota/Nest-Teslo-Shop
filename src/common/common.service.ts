@@ -2,12 +2,12 @@ import { BadRequestException, Injectable, InternalServerErrorException, Logger }
 
 @Injectable()
 export class CommonService {
-    private readonly logger = new Logger('ProductService'); 
-    private handleExceptions(error: any) {
+    handleExceptions(error: any, service: string) {
+        const logger = new Logger(service);
         if (error.code === '23505') {
-          throw new BadRequestException(error.detail);
+            throw new BadRequestException(error.detail);
         }
-        this.logger.error(error);
+        logger.error(error);
         throw new InternalServerErrorException(`Unexpected error, check server logs`)
-      }
+    }
 }

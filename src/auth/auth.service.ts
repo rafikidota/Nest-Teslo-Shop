@@ -15,7 +15,7 @@ export class AuthService {
     private readonly commonService: CommonService
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async register(createUserDto: CreateUserDto) {
     try {
       const { password, ...userData } = createUserDto;
       const user = this.userRepository.create({

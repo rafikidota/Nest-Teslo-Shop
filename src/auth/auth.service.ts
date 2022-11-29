@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -30,6 +30,22 @@ export class AuthService {
     } catch (error) {
       this.commonService.handleExceptions(error, 'AuthService');
     }
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const { password, email } = loginUserDto;
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { email: true, password: true }
+    });
+
+    if (!user) {
+      throw new UnauthorizedException(`Credentials are not valid`);
+    }
+    if (bcrypt.compareSync(password, user.password)) {
+      throw new UnauthorizedException(`Credentials are not valid`);
+    }
+    return user;
   }
 
   findAll() {

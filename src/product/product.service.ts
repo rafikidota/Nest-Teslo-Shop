@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, Query } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product, ProductImage } from './entities/index.product';
+import { Product, ProductImage } from './entities';
 import { PaginationDto } from '../common/dto/pagination.dto';
 import { validate as isUUID } from 'uuid';
 import { CommonService } from '../common/common.service';

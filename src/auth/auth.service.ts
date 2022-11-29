@@ -13,11 +13,9 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly commonService: CommonService
-
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-
     try {
       const { password, ...userData } = createUserDto;
       const user = this.userRepository.create({

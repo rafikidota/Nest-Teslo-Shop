@@ -59,6 +59,13 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
+  checkAuthStatus(user: User) {
+    return {
+      ...user,
+      token: this.getJWT({ id: user.id })
+    };
+  }
+
   findAll() {
     return `This action returns all auth`;
   }

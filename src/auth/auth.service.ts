@@ -29,7 +29,7 @@ export class AuthService {
       delete user.password;
       return {
         ...user,
-        token: this.getJWT({ email: user.email })
+        token: this.getJWT({ id: user.id })
       };
     } catch (error) {
       this.commonService.handleExceptions(error, 'AuthService');
@@ -40,7 +40,7 @@ export class AuthService {
     const { password, email } = loginUserDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true }
+      select: { email: true, password: true, id: true }
     });
 
     if (!user) {
@@ -51,7 +51,7 @@ export class AuthService {
     }
     return {
       ...user,
-      token: this.getJWT({ email: user.email })
+      token: this.getJWT({ id: user.id })
     };
   }
 

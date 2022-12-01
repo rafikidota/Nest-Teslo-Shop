@@ -3,7 +3,7 @@
 </p>
 
 # Teslo API
-1. Clone the project
+1. Clone the project ```git clone https://github.com/rafikidota/Nest-Teslo-Shop.git ```
 2. ```yarn install```
 3. Clone ```.env.template``` and rename it ```.env```
 4. Set up ```.env```

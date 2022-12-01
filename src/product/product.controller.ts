@@ -3,8 +3,9 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PaginationDto } from '../common/dto/pagination.dto';
-import { Auth } from '../auth/decorators';
+import { Auth, GetUser } from '../auth/decorators';
 import { ValidRoles } from '../auth/interfaces/valid-roles';
+import { User } from '../auth/entities/user.entity';
 
 @Controller('product')
 export class ProductController {
@@ -12,8 +13,10 @@ export class ProductController {
 
   @Post()
   @Auth(ValidRoles.admin)
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @GetUser() user: User) {
+    return this.productService.create(createProductDto, user);
   }
 
   @Get()
@@ -28,8 +31,11 @@ export class ProductController {
 
   @Patch(':id')
   @Auth(ValidRoles.admin)
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(id, updateProductDto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @GetUser() user: User) {
+    return this.productService.update(id, updateProductDto, user);
   }
 
   @Delete(':id')

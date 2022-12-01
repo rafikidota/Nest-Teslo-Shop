@@ -55,6 +55,20 @@ export class AuthController {
     };
   }
 
+  @Get('private3')
+  @RoleProtected(ValidRoles.superUser, ValidRoles.user)
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  testPrivateRoute3(
+    @GetUser() user: User,
+  ) {
+    
+    return {
+      ok: true,
+      message: 'Private 3 Hello World!!!',
+      user
+    };
+  }
+
   @Get()
   findAll() {
     return this.authService.findAll();

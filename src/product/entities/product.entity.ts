@@ -101,16 +101,17 @@ export class Product {
     )
     images?: ProductImage[];
 
-    // @ApiProperty({
-    //     example: {
-    //         id: "29b10da4-69aa-4173-bb4b-0226c80b90a2",
-    //         email: "test1@test.com",
-    //         fullName: "Test One",
-    //         isActive: true,
-    //         roles: ["admin"]
-    //     },
-    //     description: 'Product user'
-    // })
+    @ApiProperty({
+        example: {
+            id: "29b10da4-69aa-4173-bb4b-0226c80b90a2",
+            email: "test1@test.com",
+            fullName: "Test One",
+            isActive: true,
+            roles: ["admin"]
+        },
+        description: 'Product user',
+        type: () => User
+    })
     @ManyToOne(
         () => User,
         (user) => user.product,

@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -6,12 +7,17 @@ import { PaginationDto } from '../common/dto/pagination.dto';
 import { Auth, GetUser } from '../auth/decorators';
 import { ValidRoles } from '../auth/interfaces/valid-roles';
 import { User } from '../auth/entities/user.entity';
+import { Product } from './entities/product.entity';
 
+@ApiTags('Products')
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 
   @Post()
+  @ApiResponse({ status: 201, description: 'Product was created successfully', type: Product })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'User needs a valid role' })
   @Auth(ValidRoles.admin)
   create(
     @Body() createProductDto: CreateProductDto,

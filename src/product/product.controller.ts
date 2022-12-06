@@ -25,16 +25,21 @@ export class ProductController {
     return this.productService.create(createProductDto, user);
   }
 
+  @ApiResponse({ status: 200, description: 'List of products', type: Product, isArray: true })
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.productService.findAll(paginationDto);
   }
 
+  @ApiResponse({ status: 200, description: 'Product found by query', type: Product })
   @Get(':query')
   findOne(@Param('query') query: string) {
     return this.productService.findOnePlain(query);
   }
 
+  @ApiResponse({ status: 200, description: 'Product was updated successfully', type: Product })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'User needs a valid role' })
   @Patch(':id')
   @Auth(ValidRoles.admin)
   update(
@@ -44,6 +49,9 @@ export class ProductController {
     return this.productService.update(id, updateProductDto, user);
   }
 
+  @ApiResponse({ status: 201, description: 'Product was deleted  successfully', type: Product })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'User needs a valid role' })
   @Delete(':id')
   @Auth(ValidRoles.admin)
   remove(@Param('id', ParseUUIDPipe) id: string) {

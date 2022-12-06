@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { Auth, GetUser, RawHeaders } from './decorators';
@@ -14,16 +14,22 @@ import { ValidRoles } from './interfaces/valid-roles';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
+  @ApiResponse({ status: 201, description: 'User was created successfully', type: User })
+  @ApiResponse({ status: 400, description: 'Bad request' })
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto);
   }
 
+  @ApiResponse({ status: 200, description: 'User was logged successfully', type: User })
+  @ApiResponse({ status: 400, description: 'Bad request' })
   @Post('login')
   login(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
   }
 
+  @ApiResponse({ status: 200, description: 'Status was checked successfully'})
+  @ApiResponse({ status: 400, description: 'Bad request' })
   @Get('check-status')
   @Auth()
   checkAuthStatus(

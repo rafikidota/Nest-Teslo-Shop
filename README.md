@@ -7,7 +7,7 @@
 2. ```yarn install```
 3. Clone ```.env.template``` and rename it ```.env```
 4. Set up ```.env```
-5. Start db
+5. Start db (PostgreSQL local)
 6. Start app ```yarn start:dev```
 7. Execute seed ```http://localhost:3000/api/seed```
 
